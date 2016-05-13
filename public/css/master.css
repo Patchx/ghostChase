@@ -157,6 +157,10 @@ body {
 
 /* My selectors */
 
+.container-fluid {
+  height: 100vh;
+}
+
 #game {
   width: 70%;
   margin-left: auto;
