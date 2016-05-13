@@ -10,6 +10,9 @@
 
   <title>spriteBattle @yield('title')</title>
 
+  <!-- JQuery CDN -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
   <!-- Bootstrap core CSS -->
   <link href="./css/bootstrap/bootstrap.min.css" rel="stylesheet">
 
@@ -28,45 +31,52 @@
 <body>
 
   <div class="site-wrapper">
-
     <div class="site-wrapper-inner">
+      <div class="container-fluid">
 
-      <div class="cover-container">
-
-        <div class="masthead clearfix">
-          <div class="inner">
-            <h3 class="masthead-brand"><a href="#">spriteBattle</a></h3>
-            <nav>
-              <ul class="nav masthead-nav">
-                <li class="active"><a href="#">Login</a></li>
-                <li><a href="#">Register</a></li>
-                <li><a href="#">Contact</a></li>
-              </ul>
-            </nav>
+        <div class="row">
+          <div class="masthead clearfix">
+            <div class="inner">
+              <h3 class="masthead-brand"><a href="#">spriteBattle</a></h3>
+              <nav>
+                <ul class="nav masthead-nav">
+                  <li><a href="#">Login</a></li>
+                  <li><a href="#">Register</a></li>
+                  <li><a href="#">Contact</a></li>
+                </ul>
+              </nav>
+            </div>
           </div>
-        </div>
+        </div><!-- Row end -->
 
-        @section('sidebar')
-        @show
-
-        @yield('content')
-
-        <div class="mastfoot">
-          <div class="inner">
-            <p>Site designed by Robert Anderson using <a href="http://getbootstrap.com">Bootstrap</a></p>
+        <div class="row">
+          <div class="col-md-11 col-md-push-1">
+            <div class="cover-container">
+              @yield('content')
+            </div>
           </div>
-        </div>
 
-      </div>
+          <div class="col-md-1 col-md-pull-11">
+            @section('sidebar')
+            @show
+          </div>
+        </div><!-- Row end -->
 
-    </div>
+        <div class="row">
+          <div class="mastfoot">
+            <div class="inner">
+              <p>Site designed by Robert Anderson using <a href="http://getbootstrap.com">Bootstrap</a></p>
+            </div>
+          </div>
+        </div><!-- Row end -->
 
-  </div>
+      </div><!-- container-fluid end -->
+    </div><!-- site-wrapper-inner end -->
+  </div><!-- site-wrapper end -->
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="./js/vendor/jquery.min.js"><\/script>')</script>
     <script src="./js/bootstrap/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->

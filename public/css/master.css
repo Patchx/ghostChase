@@ -133,15 +133,6 @@ body {
  */
 
 @media (min-width: 768px) {
-  /* Pull out the header and footer */
-  .masthead {
-    position: fixed;
-    top: 0;
-  }
-  .mastfoot {
-    position: fixed;
-    bottom: 0;
-  }
   /* Start the vertical centering */
   .site-wrapper-inner {
     vertical-align: middle;
@@ -155,9 +146,19 @@ body {
 }
 
 @media (min-width: 992px) {
-  .masthead,
-  .mastfoot,
   .cover-container {
-    width: 700px;
+    width: 90%;
   }
+  .sideDiv {
+    padding-top: 50px;
+    padding-left: 60px;
+  }
+}
+
+/* My selectors */
+
+#game {
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
 }
