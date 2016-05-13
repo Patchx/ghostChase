@@ -5,7 +5,7 @@ var game = new Phaser.Game(divX, divY, Phaser.AUTO, 'game', { preload: preload, 
 
 function preload() {
   game.load.image('background', './images/game-background.png');
-	game.load.spritesheet('player1', './images/player1-sprite.png', 49, 122);
+	game.load.spritesheet('player1', './images/player1-sprite.png', 48, 122, 3);
 }
 
 function create() {
