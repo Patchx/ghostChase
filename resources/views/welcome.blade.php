@@ -4,8 +4,9 @@
 
 @section('content')
 
-<div class="content">
-  <div class="title">Laravel 5</div>
+<div class="inner cover">
+  <h1 class="cover-heading">spriteBattle Battle Sim</h1>
+  <p class="lead">Controls: </p>
 </div>
 
 @endsection
