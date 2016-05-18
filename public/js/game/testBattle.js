@@ -12,16 +12,25 @@ preload.prototype = {
 		player1.animations.add('dodge-b', [0, 1, 0], 10, false);
 
 		rArrow = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
-		rArrow.onDown.add(dodge, this);
+		rArrow.onDown.add(dodgeBack, this);
+		upArrow = game.input.keyboard.addKey(Phaser.Keyboard.UP);
+		upArrow.onDown.add(dodgeUp, this);
 	},
 	update: function(){
 
 	}
 }
 
-function dodge() {
-	var tween = game.add.tween(player1);
-	tween.to({ x: player1.x + 60, repeatDelay: 1000 }, 100, Phaser.Easing.Linear.None, true, 0);
+function dodgeBack() {
+	var tweenBack = game.add.tween(player1);
+	tweenBack.to({ x: player1.x + 60, repeatDelay: 1000 }, 100, Phaser.Easing.Linear.None, true, 0);
+	player1.animations.play('dodge-b');
+	returnPos(player1);
+}
+
+function dodgeUp() {
+	var tweenUp = game.add.tween(player1);
+	tweenUp.to({ y: player1.y - 60, repeatDelay: 1000 }, 100, Phaser.Easing.Linear.None, true, 0);
 	player1.animations.play('dodge-b');
 	returnPos(player1);
 }
