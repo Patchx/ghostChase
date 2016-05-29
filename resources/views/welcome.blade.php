@@ -8,7 +8,7 @@
 
 @section('content')
 
-<div class="inner cover">
+<div>
   <h1 class="cover-heading">spriteBattle Battle Sim</h1>
   <div class="lead" id="game"></div>
 </div>

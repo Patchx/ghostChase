@@ -50,13 +50,13 @@
         </div><!-- Row end -->
 
         <div class="row">
-          <div class="col-md-11 col-md-push-1">
+          <div class="col-md-10 col-md-push-2">
             <div class="cover-container">
               @yield('content')
             </div>
           </div>
 
-          <div class="col-md-1 col-md-pull-11">
+          <div class="col-md-2 col-md-pull-10">
             @section('sidebar')
             @show
           </div>
