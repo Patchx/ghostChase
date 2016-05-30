@@ -10,37 +10,35 @@ preload.prototype = {
 
 		player1 = game.add.sprite(game.world.width * 0.5, game.world.height * 0.5, 'player1');
 		player1.scale.setTo(2.5, 2.5);
-		player1.animations.add('dodge-b', [6, 10, 6], 10, false);
+		player1.animations.add('dodge-b', [10, 6, 10], 100, false);
 
 		rArrow = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
-		rArrow.onDown.add(dodgeBack, this);
+		rArrow.onDown.add(dodge, {dir: 'back'});
 		upArrow = game.input.keyboard.addKey(Phaser.Keyboard.UP);
-		upArrow.onDown.add(dodgeUp, this);
+		upArrow.onDown.add(dodge, {dir: 'up'});
 		downArrow = game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
-		downArrow.onDown.add(dodgeDown, this);
+		downArrow.onDown.add(dodge, {dir: 'down'});
 	},
 	update: function(){
 
 	}
 }
 
-function dodgeBack() {
-	var tweenBack = game.add.tween(player1);
-	tweenBack.to({ x: player1.x + 60, repeatDelay: 3000 }, 100, Phaser.Easing.Linear.None, true, 0);
-	player1.animations.play('dodge-b');
-	returnPos(player1);
-}
+function dodge(dir) {
+	var tweenDodge = game.add.tween(player1);
+	switch (this.dir) {
+		case 'up':
+			var dodgeHash = { y: player1.y - 60, repeatDelay: 3000 };
+			break;
+		case 'down':
+			var dodgeHash = { y: player1.y + 60, repeatDelay: 3000 };
+			break;
+		case 'back':
+			var dodgeHash = { x: player1.x + 60, repeatDelay: 3000 };
+			break;
+	}
 
-function dodgeUp() {
-	var tweenUp = game.add.tween(player1);
-	tweenUp.to({ y: player1.y - 60, repeatDelay: 3000 }, 100, Phaser.Easing.Linear.None, true, 0);
-	player1.animations.play('dodge-b');
-	returnPos(player1);
-}
-
-function dodgeDown() {
-	var tweenDown = game.add.tween(player1);
-	tweenDown.to({ y: player1.y + 60, repeatDelay: 3000 }, 100, Phaser.Easing.Linear.None, true, 0);
+	tweenDodge.to(dodgeHash, 100, Phaser.Easing.Linear.None, true, 0);
 	player1.animations.play('dodge-b');
 	returnPos(player1);
 }
