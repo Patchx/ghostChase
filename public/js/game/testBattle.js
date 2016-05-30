@@ -23,8 +23,8 @@ preload.prototype = {
 
 		player1.animations.add('dodge', [9,10], playerSpeed, false);
 		player1.animations.add('attack1', [9,12], playerSpeed, false);
-		player1.animations.add('attack2', [9,12,13], playerSpeed, false);
-		player1.animations.add('attack3', [13,14,13], playerSpeed, false);
+		player1.animations.add('attack2', [13], playerSpeed, false);
+		player1.animations.add('attack3', [14,13], playerSpeed, false);
 		player1.animations.add('spAtk', [11], playerSpeed, false);
 
 		// Controls
@@ -63,6 +63,8 @@ function returnPos() {
 	var tween = game.add.tween(arguments[0]);
 	tween.to({ x: game.world.width * 0.5, y: game.world.height * 0.5 }, playerSpeed, Phaser.Easing.Linear.None, true, 150);
 	player1.frame = 9;
+	frontArrow.onDown.removeAll();
+	frontArrow.onDown.add(attack1, this);
 	enableFighter();
 }
 
@@ -137,8 +139,6 @@ function attack2() {
 
 function attack3() {
 	disableAtks();
-	var tweenAttack = game.add.tween(player1);
-	tweenAttack.to({ x: player1.x - (playerDist * 0.5)}, playerSpeed, Phaser.Easing.Linear.None, true, 0);
 	player1.animations.play('attack3');
 }
 
