@@ -14,7 +14,7 @@ preload.prototype = {
 	  this.game.add.sprite(0, 0, 'background');
 
 		player1 = game.add.sprite(game.world.width * 0.5, game.world.height * 0.5, 'player1', 9);
-		player1.scale.setTo(2.5, 2.5);
+		player1.scale.setTo(3, 3);
 
 		// Animation Settings
 
@@ -25,6 +25,7 @@ preload.prototype = {
 		player1.animations.add('attack1', [9,12], playerSpeed, false);
 		player1.animations.add('attack2', [9,12,13], playerSpeed, false);
 		player1.animations.add('attack3', [13,14,13], playerSpeed, false);
+		player1.animations.add('spAtk', [11], playerSpeed, false);
 
 		// Controls
 
@@ -38,6 +39,9 @@ preload.prototype = {
 		downArrow.onDown.add(dodge, {dir: 'down'});
 		frontArrow.onDown.add(attack1, this);
 
+		spAtkBtn = game.input.keyboard.addKey(Phaser.Keyboard.F);
+		spAtkBtn.onDown.add(spAtk);
+
 		pauseBtn = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 		pauseBtn.onDown.add(pause);
 	},
@@ -45,6 +49,7 @@ preload.prototype = {
 	update: function(){
 	}
 }
+
 
 function pause() {
 	if( game.paused !== true) {
@@ -54,9 +59,16 @@ function pause() {
 	}
 }
 
+function returnPos() {
+	var tween = game.add.tween(arguments[0]);
+	tween.to({ x: game.world.width * 0.5, y: game.world.height * 0.5 }, playerSpeed, Phaser.Easing.Linear.None, true, 150);
+	player1.frame = 9;
+	enableFighter();
+}
+
 function enableFighter() {
 	enableDodge();
-	frontArrow.enabled = true;
+	enableAtks();
 }
 
 function enableDodge() {
@@ -71,16 +83,19 @@ function disableDodge() {
 	downArrow.enabled = false;
 }
 
-function returnPos() {
-	var tween = game.add.tween(arguments[0]);
-	tween.to({ x: game.world.width * 0.5, y: game.world.height * 0.5 }, playerSpeed, Phaser.Easing.Linear.None, true, 150);
-	player1.frame = 9;
-	enableFighter();
+function enableAtks() {
+	frontArrow.enabled = true;
+	spAtkBtn.enabled = true;
+}
+
+function disableAtks() {
+	frontArrow.enabled = false;
+	spAtkBtn.enabled = false;
 }
 
 function dodge(dir) {
 	disableDodge();
-	frontArrow.enabled = false;
+	disableAtks();
 
 	var tweenDodge = game.add.tween(player1);
 	switch (this.dir) {
@@ -106,7 +121,7 @@ function attack1() {
 	disableDodge();
 
 	var tweenAttack = game.add.tween(player1);
-	tweenAttack.to({ x: player1.x - playerDist, repeatDelay: 3000 }, playerSpeed, Phaser.Easing.Linear.None, true, 0);
+	tweenAttack.to({ x: player1.x - playerDist }, playerSpeed, Phaser.Easing.Linear.None, true, 0);
 	player1.animations.play('attack1');
 	frontArrow.onDown.addOnce(attack2, this);
 
@@ -121,8 +136,21 @@ function attack2() {
 }
 
 function attack3() {
-	frontArrow.enabled = false;
+	disableAtks();
 	var tweenAttack = game.add.tween(player1);
-	tweenAttack.to({ x: player1.x - (playerDist * 0.5), repeatDelay: 3000 }, playerSpeed, Phaser.Easing.Linear.None, true, 0);
+	tweenAttack.to({ x: player1.x - (playerDist * 0.5)}, playerSpeed, Phaser.Easing.Linear.None, true, 0);
 	player1.animations.play('attack3');
+}
+
+function spAtk() {
+	disableDodge();
+	disableAtks();
+
+	var tweenAttack = game.add.tween(player1);
+	tweenAttack.to({ x: player1.x - (playerDist * 1.75), y: player1.y - playerDist }, playerSpeed, Phaser.Easing.Linear.None, true, 0);
+	player1.animations.play('spAtk');
+
+	player1.events.onAnimationComplete.add(function(){
+		returnPos(player1);
+	},this);
 }
