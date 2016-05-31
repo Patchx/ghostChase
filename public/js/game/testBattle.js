@@ -5,27 +5,45 @@ preload.prototype = {
 	preload: function(){ 
 	  this.game.load.image('background', './images/game-background.png');
 		this.game.load.spritesheet('player1', './images/stuntman.png', 37, 52, 15);
+    game.load.spritesheet('arrow-left', './images/arrow-left.png', 128, 128);
+    game.load.spritesheet('arrow-right', './images/arrow-right.png', 128, 128);
+    game.load.spritesheet('arrow-up', './images/arrow-up.png', 128, 128);
+    game.load.spritesheet('arrow-down', './images/arrow-down.png', 128, 128);
 	},
 
 	create: function(){
+
+		// Battle Settings
+
+		spriteScale = game.world.width * 0.004;
+		p1Location = {x: game.world.width * 0.65, y: game.world.height * 0.35};
+		playerSpeed = 6;
+		playerDist = 30;
 
 		// Sprites
 
 	  this.game.add.sprite(0, 0, 'background');
 
-		player1 = game.add.sprite(game.world.width * 0.5, game.world.height * 0.5, 'player1', 9);
-		player1.scale.setTo(3, 3);
+		player1 = game.add.sprite(p1Location['x'], p1Location['y'], 'player1', 9);
+		player1.scale.setTo(spriteScale, spriteScale);
 
-		// Animation Settings
+		btnLeft = game.add.button(game.world.width * 0.74, game.world.height * 0.73, 'arrow-left');
+		btnRight = game.add.button(game.world.width * 0.9, game.world.height * 0.73, 'arrow-right');
+		btnUp = game.add.button(game.world.width * 0.82, game.world.height * 0.62, 'arrow-up');
+		btnDown = game.add.button(game.world.width * 0.82, game.world.height * 0.85, 'arrow-down');
 
-		playerSpeed = 6;
-		playerDist = 30;
+		btnLeft.scale.setTo(spriteScale * 0.16, spriteScale * 0.16);
+		btnRight.scale.setTo(spriteScale * 0.16, spriteScale * 0.16);
+		btnUp.scale.setTo(spriteScale * 0.16, spriteScale * 0.16);
+		btnDown.scale.setTo(spriteScale * 0.16, spriteScale * 0.16);
+
+		// Animations
 
 		player1.animations.add('dodge', [9,10], playerSpeed, false);
 		player1.animations.add('attack1', [9,12], playerSpeed, false);
-		player1.animations.add('attack2', [13], playerSpeed, false);
-		player1.animations.add('attack3', [14,13], playerSpeed, false);
-		player1.animations.add('spAtk', [11], playerSpeed, false);
+		player1.animations.add('attack2', [13], playerSpeed * 0.5, false);
+		player1.animations.add('attack3', [14,13], playerSpeed * 0.7, false);
+		player1.animations.add('spAtk', [11], playerSpeed * 1.2, false);
 
 		// Controls
 
@@ -38,6 +56,11 @@ preload.prototype = {
 		upArrow.onDown.add(dodge, {dir: 'up'});
 		downArrow.onDown.add(dodge, {dir: 'down'});
 		frontArrow.onDown.add(attack1, this);
+
+		btnRight.onInputDown.add(dodge, {dir: 'back'});
+		btnUp.onInputDown.add(dodge, {dir: 'up'});
+		btnDown.onInputDown.add(dodge, {dir: 'down'});
+		btnLeft.onInputDown.add(attack1, this);
 
 		spAtkBtn = game.input.keyboard.addKey(Phaser.Keyboard.F);
 		spAtkBtn.onDown.add(spAtk);
@@ -61,7 +84,7 @@ function pause() {
 
 function returnPos() {
 	var tween = game.add.tween(arguments[0]);
-	tween.to({ x: game.world.width * 0.5, y: game.world.height * 0.5 }, playerSpeed, Phaser.Easing.Linear.None, true, 150);
+	tween.to({ x: p1Location['x'], y: p1Location['y'] }, playerSpeed, Phaser.Easing.Linear.None, true, 150);
 	player1.frame = 9;
 	frontArrow.onDown.removeAll();
 	frontArrow.onDown.add(attack1, this);
@@ -75,23 +98,31 @@ function enableFighter() {
 
 function enableDodge() {
 	backArrow.enabled = true;
+	btnRight.inputEnabled = true;
 	upArrow.enabled = true;
+	btnUp.inputEnabled = true;
 	downArrow.enabled = true;
+	btnDown.inputEnabled = true;
 }
 
 function disableDodge() {
 	backArrow.enabled = false;
+	btnRight.inputEnabled = false;
 	upArrow.enabled = false;
+	btnUp.inputEnabled = false;
 	downArrow.enabled = false;
+	btnDown.inputEnabled = false;
 }
 
 function enableAtks() {
 	frontArrow.enabled = true;
+	btnLeft.inputEnabled = true;
 	spAtkBtn.enabled = true;
 }
 
 function disableAtks() {
 	frontArrow.enabled = false;
+	btnLeft.inputEnabled = false;
 	spAtkBtn.enabled = false;
 }
 
@@ -145,6 +176,7 @@ function attack3() {
 function spAtk() {
 	disableDodge();
 	disableAtks();
+	spAtkBtn.enabled = false;
 
 	var tweenAttack = game.add.tween(player1);
 	tweenAttack.to({ x: player1.x - (playerDist * 1.75), y: player1.y - playerDist }, playerSpeed, Phaser.Easing.Linear.None, true, 0);

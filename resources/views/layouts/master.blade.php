@@ -37,7 +37,7 @@
         <div class="row">
           <div class="masthead clearfix">
             <div class="inner">
-              <h3 class="masthead-brand"><a href="#">spriteBattle</a></h3>
+              <h3 class="masthead-brand"><a href="#">Ghost Chase</a></h3>
               <nav>
                 <ul class="nav masthead-nav">
                   <li><a href="#">Login</a></li>
@@ -50,15 +50,10 @@
         </div><!-- Row end -->
 
         <div class="row">
-          <div class="col-md-10 col-md-push-2">
+          <div class="col-xs-12">
             <div class="cover-container">
               @yield('content')
             </div>
-          </div>
-
-          <div class="col-md-2 col-md-pull-10">
-            @section('sidebar')
-            @show
           </div>
         </div><!-- Row end -->
 

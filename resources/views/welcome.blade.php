@@ -2,14 +2,10 @@
 
 @section('title', '- Main')
 
-@section('sidebar')
-<p class="lead sideDiv">Controls: </p>
-@endsection
 
 @section('content')
 
 <div>
-  <h1 class="cover-heading">spriteBattle Battle Sim</h1>
   <div class="lead" id="game"></div>
 </div>
 
