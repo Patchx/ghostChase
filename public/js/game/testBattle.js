@@ -9,6 +9,7 @@ preload.prototype = {
     game.load.spritesheet('arrow-right', './images/arrow-right.png', 128, 128);
     game.load.spritesheet('arrow-up', './images/arrow-up.png', 128, 128);
     game.load.spritesheet('arrow-down', './images/arrow-down.png', 128, 128);
+    game.load.spritesheet('F-btn', './images/F-button.png', 128, 128);
 	},
 
 	create: function(){
@@ -31,11 +32,13 @@ preload.prototype = {
 		btnRight = game.add.button(game.world.width * 0.9, game.world.height * 0.73, 'arrow-right');
 		btnUp = game.add.button(game.world.width * 0.82, game.world.height * 0.62, 'arrow-up');
 		btnDown = game.add.button(game.world.width * 0.82, game.world.height * 0.85, 'arrow-down');
+		btnF = game.add.button(game.world.width * 0.01, game.world.height * 0.82, 'F-btn');
 
 		btnLeft.scale.setTo(spriteScale * 0.16, spriteScale * 0.16);
 		btnRight.scale.setTo(spriteScale * 0.16, spriteScale * 0.16);
 		btnUp.scale.setTo(spriteScale * 0.16, spriteScale * 0.16);
 		btnDown.scale.setTo(spriteScale * 0.16, spriteScale * 0.16);
+		btnF.scale.setTo(spriteScale * 0.19, spriteScale * 0.19);
 
 		// Animations
 
@@ -62,8 +65,9 @@ preload.prototype = {
 		btnDown.onInputDown.add(dodge, {dir: 'down'});
 		btnLeft.onInputDown.add(attack1, this);
 
-		spAtkBtn = game.input.keyboard.addKey(Phaser.Keyboard.F);
-		spAtkBtn.onDown.add(spAtk);
+		spAtkKey = game.input.keyboard.addKey(Phaser.Keyboard.F);
+		spAtkKey.onDown.add(spAtk);
+		btnF.onInputDown.add(spAtk);
 
 		pauseBtn = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 		pauseBtn.onDown.add(pause);
@@ -88,6 +92,7 @@ function returnPos() {
 	player1.frame = 9;
 	frontArrow.onDown.removeAll();
 	frontArrow.onDown.add(attack1, this);
+	btnLeft.onInputDown.add(attack1, this);
 	enableFighter();
 }
 
@@ -117,13 +122,15 @@ function disableDodge() {
 function enableAtks() {
 	frontArrow.enabled = true;
 	btnLeft.inputEnabled = true;
-	spAtkBtn.enabled = true;
+	spAtkKey.enabled = true;
+	btnF.inputEnabled = true;
 }
 
 function disableAtks() {
 	frontArrow.enabled = false;
 	btnLeft.inputEnabled = false;
-	spAtkBtn.enabled = false;
+	spAtkKey.enabled = false;
+	btnF.inputEnabled = false;
 }
 
 function dodge(dir) {
@@ -157,6 +164,7 @@ function attack1() {
 	tweenAttack.to({ x: player1.x - playerDist }, playerSpeed, Phaser.Easing.Linear.None, true, 0);
 	player1.animations.play('attack1');
 	frontArrow.onDown.addOnce(attack2, this);
+	btnLeft.onInputDown.addOnce(attack2, this);
 
 	player1.events.onAnimationComplete.add(function(){
 		returnPos(player1);
@@ -166,6 +174,7 @@ function attack1() {
 function attack2() {
 	player1.animations.play('attack2');
 	frontArrow.onDown.addOnce(attack3, this);
+	btnLeft.onInputDown.addOnce(attack3, this);
 }
 
 function attack3() {
@@ -176,7 +185,8 @@ function attack3() {
 function spAtk() {
 	disableDodge();
 	disableAtks();
-	spAtkBtn.enabled = false;
+	spAtkKey.enabled = false;
+	btnF.inputEnabled = false;
 
 	var tweenAttack = game.add.tween(player1);
 	tweenAttack.to({ x: player1.x - (playerDist * 1.75), y: player1.y - playerDist }, playerSpeed, Phaser.Easing.Linear.None, true, 0);

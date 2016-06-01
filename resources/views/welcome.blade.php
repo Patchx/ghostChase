@@ -5,9 +5,7 @@
 
 @section('content')
 
-<div>
-  <div class="lead" id="game"></div>
-</div>
+<div class="lead" id="game"></div>
 
 <script src="./js/game/phaser.min.js"></script>
 <script src="./js/game/testOverworld.js"></script>

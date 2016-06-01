@@ -95,15 +95,6 @@ body {
   border-bottom-color: #fff;
 }
 
-@media (min-width: 768px) {
-  .masthead-brand {
-    float: left;
-  }
-  .masthead-nav {
-    float: right;
-  }
-}
-
 
 /*
  * Cover
@@ -128,6 +119,30 @@ body {
 }
 
 
+/* My selectors */
+
+.container-fluid {
+  height: 100vh;
+}
+
+#game {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+/* Media Queries*/
+
+@media (min-width: 768px) {
+  .masthead-brand {
+    float: left;
+  }
+  .masthead-nav {
+    float: right;
+  }
+}
+
 /*
  * Affix and center
  */
@@ -143,6 +158,9 @@ body {
   .cover-container {
     width: 100%; /* Must be percentage or pixels for horizontal alignment */
   }
+  #game {
+    width: 90%;
+  }
 }
 
 @media (min-width: 992px) {
@@ -153,16 +171,7 @@ body {
     padding-top: 50px;
     padding-left: 60px;
   }
-}
-
-/* My selectors */
-
-.container-fluid {
-  height: 100vh;
-}
-
-#game {
-  width: 70%;
-  margin-left: auto;
-  margin-right: auto;
+  #game {
+    width: 70%;
+  }
 }

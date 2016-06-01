@@ -50,17 +50,15 @@
         </div><!-- Row end -->
 
         <div class="row">
-          <div class="col-xs-12">
-            <div class="cover-container">
-              @yield('content')
-            </div>
+          <div class="cover-container">
+            @yield('content')
           </div>
         </div><!-- Row end -->
 
         <div class="row">
           <div class="mastfoot">
             <div class="inner">
-              <p>Site designed by Robert Anderson using <a href="http://getbootstrap.com">Bootstrap</a></p>
+              <p>Site designed by Robert Anderson using <a href="http://phaser.io/">Phaser</a></p>
             </div>
           </div>
         </div><!-- Row end -->
