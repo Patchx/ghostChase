@@ -5,11 +5,12 @@ preload.prototype = {
 	preload: function(){ 
 	  this.game.load.image('background', './images/game-background.png');
 		this.game.load.spritesheet('player1', './images/stuntman.png', 37, 52, 15);
-    game.load.spritesheet('arrow-left', './images/arrow-left.png', 128, 128);
-    game.load.spritesheet('arrow-right', './images/arrow-right.png', 128, 128);
-    game.load.spritesheet('arrow-up', './images/arrow-up.png', 128, 128);
-    game.load.spritesheet('arrow-down', './images/arrow-down.png', 128, 128);
-    game.load.spritesheet('F-btn', './images/F-button.png', 128, 128);
+    this.game.load.spritesheet('arrow-left', './images/arrow-left.png', 128, 128);
+    this.game.load.spritesheet('arrow-right', './images/arrow-right.png', 128, 128);
+    this.game.load.spritesheet('arrow-up', './images/arrow-up.png', 128, 128);
+    this.game.load.spritesheet('arrow-down', './images/arrow-down.png', 128, 128);
+    this.game.load.spritesheet('F-btn', './images/F-button.png', 128, 128);
+    this.game.load.spritesheet('D-btn', './images/D-button.png', 128, 128);
 	},
 
 	create: function(){
@@ -32,13 +33,15 @@ preload.prototype = {
 		btnRight = game.add.button(game.world.width * 0.9, game.world.height * 0.73, 'arrow-right');
 		btnUp = game.add.button(game.world.width * 0.82, game.world.height * 0.62, 'arrow-up');
 		btnDown = game.add.button(game.world.width * 0.82, game.world.height * 0.85, 'arrow-down');
-		btnF = game.add.button(game.world.width * 0.01, game.world.height * 0.82, 'F-btn');
+		btnD = game.add.button(game.world.width * 0.01, game.world.height * 0.82, 'D-btn');
+		btnF = game.add.button(game.world.width * 0.11, game.world.height * 0.82, 'F-btn');
 
 		btnLeft.scale.setTo(spriteScale * 0.16, spriteScale * 0.16);
 		btnRight.scale.setTo(spriteScale * 0.16, spriteScale * 0.16);
 		btnUp.scale.setTo(spriteScale * 0.16, spriteScale * 0.16);
 		btnDown.scale.setTo(spriteScale * 0.16, spriteScale * 0.16);
 		btnF.scale.setTo(spriteScale * 0.19, spriteScale * 0.19);
+		btnD.scale.setTo(spriteScale * 0.19, spriteScale * 0.19);
 
 		// Animations
 
