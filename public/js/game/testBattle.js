@@ -11,6 +11,7 @@ preload.prototype = {
     this.game.load.spritesheet('arrow-down', './images/arrow-down.png', 128, 128);
     this.game.load.spritesheet('F-btn', './images/F-button.png', 128, 128);
     this.game.load.spritesheet('D-btn', './images/D-button.png', 128, 128);
+		this.game.load.spritesheet('classImage', './images/classChange.png', 20, 24, 4);
 	},
 
 	create: function(){
@@ -18,6 +19,7 @@ preload.prototype = {
 		// Battle Settings
 
 		spriteScale = game.world.width * 0.004;
+		arrowScale = game.world.width * 0.00064;
 		p1Location = {x: game.world.width * 0.65, y: game.world.height * 0.35};
 		playerSpeed = 6;
 		playerDist = 30;
@@ -29,6 +31,9 @@ preload.prototype = {
 		player1 = game.add.sprite(p1Location['x'], p1Location['y'], 'player1', 9);
 		player1.scale.setTo(spriteScale, spriteScale);
 
+		classImage = game.add.sprite(game.world.width * 0.45, game.world.height * 0.84, 'classImage', 3);
+		classImage.scale.setTo(spriteScale, spriteScale);
+
 		btnLeft = game.add.button(game.world.width * 0.74, game.world.height * 0.73, 'arrow-left');
 		btnRight = game.add.button(game.world.width * 0.9, game.world.height * 0.73, 'arrow-right');
 		btnUp = game.add.button(game.world.width * 0.82, game.world.height * 0.62, 'arrow-up');
@@ -36,10 +41,10 @@ preload.prototype = {
 		btnD = game.add.button(game.world.width * 0.01, game.world.height * 0.82, 'D-btn');
 		btnF = game.add.button(game.world.width * 0.11, game.world.height * 0.82, 'F-btn');
 
-		btnLeft.scale.setTo(spriteScale * 0.16, spriteScale * 0.16);
-		btnRight.scale.setTo(spriteScale * 0.16, spriteScale * 0.16);
-		btnUp.scale.setTo(spriteScale * 0.16, spriteScale * 0.16);
-		btnDown.scale.setTo(spriteScale * 0.16, spriteScale * 0.16);
+		btnLeft.scale.setTo(arrowScale, arrowScale);
+		btnRight.scale.setTo(arrowScale, arrowScale);
+		btnUp.scale.setTo(arrowScale, arrowScale);
+		btnDown.scale.setTo(arrowScale, arrowScale);
 		btnF.scale.setTo(spriteScale * 0.19, spriteScale * 0.19);
 		btnD.scale.setTo(spriteScale * 0.19, spriteScale * 0.19);
 
@@ -72,6 +77,10 @@ preload.prototype = {
 		spAtkKey.onDown.add(spAtk);
 		btnF.onInputDown.add(spAtk);
 
+		classKey = game.input.keyboard.addKey(Phaser.Keyboard.D);
+		classKey.onDown.add(classChange);
+		btnD.onInputDown.add(classChange);
+
 		pauseBtn = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 		pauseBtn.onDown.add(pause);
 	},
@@ -80,6 +89,10 @@ preload.prototype = {
 	}
 }
 
+function classChange() {
+	classImage.frame = classImage.frame + 1;
+	classImage.frame = classImage.frame % 4;
+}
 
 function pause() {
 	if( game.paused !== true) {
