@@ -4,7 +4,8 @@ preload.prototype = {
 
 	preload: function(){ 
 	  this.game.load.image('background', './images/game-background.png');
-		this.game.load.spritesheet('player1', './images/stuntman.png', 37, 52, 15);
+		this.game.load.spritesheet('stuntman', './images/stuntman.png', 37, 52, 15);
+		this.game.load.spritesheet('gen', './images/gen.png', 37, 52, 15);
     this.game.load.spritesheet('arrow-left', './images/arrow-left.png', 128, 128);
     this.game.load.spritesheet('arrow-right', './images/arrow-right.png', 128, 128);
     this.game.load.spritesheet('arrow-up', './images/arrow-up.png', 128, 128);
@@ -20,15 +21,16 @@ preload.prototype = {
 
 		spriteScale = game.world.width * 0.004;
 		arrowScale = game.world.width * 0.00064;
-		p1Location = {x: game.world.width * 0.65, y: game.world.height * 0.35};
 		playerSpeed = 6;
 		playerDist = 30;
+		p1Location = {x: game.world.width * 0.65, y: game.world.height * 0.35};
+		p1Class = 0;
 
 		// Sprites
 
 	  this.game.add.sprite(0, 0, 'background');
 
-		player1 = game.add.sprite(p1Location['x'], p1Location['y'], 'player1', 9);
+		player1 = game.add.sprite(p1Location['x'], p1Location['y'], 'stuntman', 9);
 		player1.scale.setTo(spriteScale, spriteScale);
 
 		classImage = game.add.sprite(game.world.width * 0.45, game.world.height * 0.84, 'classImage', 3);
@@ -90,8 +92,22 @@ preload.prototype = {
 }
 
 function classChange() {
-	classImage.frame = classImage.frame + 1;
-	classImage.frame = classImage.frame % 4;
+	classImage.frame = (classImage.frame + 1) % 4;
+	p1Class = (p1Class + 1) % 4;
+	switch(p1Class) {
+		case 2:
+			player1.destroy();
+			player1 = game.add.sprite(p1Location['x'], p1Location['y'], 'gen', 9);
+			player1.scale.setTo(spriteScale, spriteScale);
+			break;
+		case 0:
+			player1.destroy();
+			player1 = game.add.sprite(p1Location['x'], p1Location['y'], 'stuntman', 9);
+			player1.scale.setTo(spriteScale, spriteScale);
+			break;
+		default:
+			break;
+	}
 }
 
 function pause() {
