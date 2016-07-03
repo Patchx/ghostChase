@@ -17,31 +17,34 @@ preload.prototype = {
 
 	create: function(){
 
+		// Visual Settings
+
+		var spriteScale = game.world.width * 0.004;
+		var arrowScale = game.world.width * 0.00064;
+
 		// Battle Settings
 
-		spriteScale = game.world.width * 0.004;
-		arrowScale = game.world.width * 0.00064;
-		playerSpeed = 6;
-		playerDist = 30;
-		p1Location = {x: game.world.width * 0.65, y: game.world.height * 0.35};
-		p1Class = 0;
+		var playerSpeed = 6;
+		var playerDist = 30;
+		var p1Location = {x: game.world.width * 0.65, y: game.world.height * 0.35};
+		var p1Class = 0;
 
 		// Sprites
 
 	  this.game.add.sprite(0, 0, 'background');
 
-		player1 = game.add.sprite(p1Location['x'], p1Location['y'], 'stuntman', 9);
+		var player1 = game.add.sprite(p1Location['x'], p1Location['y'], 'stuntman', 9);
 		player1.scale.setTo(spriteScale, spriteScale);
 
-		classImage = game.add.sprite(game.world.width * 0.45, game.world.height * 0.84, 'classImage', 3);
+		var classImage = game.add.sprite(game.world.width * 0.45, game.world.height * 0.84, 'classImage', 3);
 		classImage.scale.setTo(spriteScale, spriteScale);
 
-		btnLeft = game.add.button(game.world.width * 0.74, game.world.height * 0.73, 'arrow-left');
-		btnRight = game.add.button(game.world.width * 0.9, game.world.height * 0.73, 'arrow-right');
-		btnUp = game.add.button(game.world.width * 0.82, game.world.height * 0.62, 'arrow-up');
-		btnDown = game.add.button(game.world.width * 0.82, game.world.height * 0.85, 'arrow-down');
-		btnD = game.add.button(game.world.width * 0.01, game.world.height * 0.82, 'D-btn');
-		btnF = game.add.button(game.world.width * 0.11, game.world.height * 0.82, 'F-btn');
+		var btnLeft = game.add.button(game.world.width * 0.74, game.world.height * 0.73, 'arrow-left');
+		var btnRight = game.add.button(game.world.width * 0.9, game.world.height * 0.73, 'arrow-right');
+		var btnUp = game.add.button(game.world.width * 0.82, game.world.height * 0.62, 'arrow-up');
+		var btnDown = game.add.button(game.world.width * 0.82, game.world.height * 0.85, 'arrow-down');
+		var btnD = game.add.button(game.world.width * 0.01, game.world.height * 0.82, 'D-btn');
+		var btnF = game.add.button(game.world.width * 0.11, game.world.height * 0.82, 'F-btn');
 
 		btnLeft.scale.setTo(arrowScale, arrowScale);
 		btnRight.scale.setTo(arrowScale, arrowScale);
@@ -60,10 +63,10 @@ preload.prototype = {
 
 		// Controls
 
-		backArrow = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
-		upArrow = game.input.keyboard.addKey(Phaser.Keyboard.UP);
-		downArrow = game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
-		frontArrow = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
+		var backArrow = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
+		var upArrow = game.input.keyboard.addKey(Phaser.Keyboard.UP);
+		var downArrow = game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
+		var frontArrow = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
 
 		backArrow.onDown.add(dodge, {dir: 'back'});
 		upArrow.onDown.add(dodge, {dir: 'up'});
@@ -75,157 +78,160 @@ preload.prototype = {
 		btnDown.onInputDown.add(dodge, {dir: 'down'});
 		btnLeft.onInputDown.add(classChange);
 
-		spAtkKey = game.input.keyboard.addKey(Phaser.Keyboard.D);
+		var spAtkKey = game.input.keyboard.addKey(Phaser.Keyboard.D);
 		spAtkKey.onDown.add(spAtk);
 		btnD.onInputDown.add(spAtk);
 
-		atkKey = game.input.keyboard.addKey(Phaser.Keyboard.F);
+		var atkKey = game.input.keyboard.addKey(Phaser.Keyboard.F);
 		atkKey.onDown.add(attack1, this);
 		btnF.onInputDown.add(attack1, this);
 
-		pauseBtn = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+		var pauseBtn = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 		pauseBtn.onDown.add(pause);
+
+		// Functions
+
+		function classChange() {
+			classImage.frame = (classImage.frame + 1) % 4;
+			var p1Class = (p1Class + 1) % 4;
+			switch(p1Class) {
+				case 2:
+					player1.destroy();
+					var player1 = game.add.sprite(p1Location['x'], p1Location['y'], 'gen', 9);
+					player1.scale.setTo(spriteScale, spriteScale);
+					break;
+				case 0:
+					player1.destroy();
+					var player1 = game.add.sprite(p1Location['x'], p1Location['y'], 'stuntman', 9);
+					player1.scale.setTo(spriteScale, spriteScale);
+					break;
+				default:
+					break;
+			}
+		}
+
+		function pause() {
+			if( game.paused !== true) {
+				game.paused = true;
+			} else {
+				game.paused = false;
+			}
+		}
+
+		function returnPos() {
+			var tween = game.add.tween(arguments[0]);
+			tween.to({ x: p1Location['x'], y: p1Location['y'] }, playerSpeed, Phaser.Easing.Linear.None, true, 150);
+			player1.frame = 9;
+			atkKey.onDown.removeAll();
+			btnF.onInputDown.removeAll();
+			atkKey.onDown.add(attack1, this);
+			btnF.onInputDown.add(attack1, this);
+			enableFighter();
+		}
+
+		function enableFighter() {
+			enableDodge();
+			enableAtks();
+		}
+
+		function enableDodge() {
+			backArrow.enabled = true;
+			btnRight.inputEnabled = true;
+			upArrow.enabled = true;
+			btnUp.inputEnabled = true;
+			downArrow.enabled = true;
+			btnDown.inputEnabled = true;
+		}
+
+		function disableDodge() {
+			backArrow.enabled = false;
+			btnRight.inputEnabled = false;
+			upArrow.enabled = false;
+			btnUp.inputEnabled = false;
+			downArrow.enabled = false;
+			btnDown.inputEnabled = false;
+		}
+
+		function enableAtks() {
+			atkKey.enabled = true;
+			btnF.inputEnabled = true;
+			spAtkKey.enabled = true;
+			btnD.inputEnabled = true;
+		}
+
+		function disableAtks() {
+			atkKey.enabled = false;
+			btnF.inputEnabled = false;
+			spAtkKey.enabled = false;
+			btnD.inputEnabled = false;
+		}
+
+		function dodge(dir) {
+			disableDodge();
+			disableAtks();
+
+			var tweenDodge = game.add.tween(player1);
+			switch (this.dir) {
+				case 'up':
+					var dodgeHash = { y: player1.y - playerDist};
+					break;
+				case 'down':
+					var dodgeHash = { y: player1.y + playerDist};
+					break;
+				case 'back':
+					var dodgeHash = { x: player1.x + playerDist};
+					break;
+			}
+			player1.animations.play('dodge');
+			tweenDodge.to(dodgeHash, playerSpeed, Phaser.Easing.Linear.None, true, 0);
+
+			player1.events.onAnimationComplete.add(function(){
+				returnPos(player1);
+			},this);
+		}
+
+		function attack1() {
+			disableDodge();
+
+			var tweenAttack = game.add.tween(player1);
+			tweenAttack.to({ x: player1.x - playerDist }, playerSpeed, Phaser.Easing.Linear.None, true, 0);
+			player1.animations.play('attack1');
+			atkKey.onDown.addOnce(attack2, this);
+			btnF.onInputDown.addOnce(attack2, this);
+
+			player1.events.onAnimationComplete.add(function(){
+				returnPos(player1);
+			},this);
+		}
+
+		function attack2() {
+			player1.animations.play('attack2');
+			atkKey.onDown.addOnce(attack3, this);
+			btnF.onInputDown.addOnce(attack3, this);
+		}
+
+		function attack3() {
+			disableAtks();
+			player1.animations.play('attack3');
+		}
+
+		function spAtk() {
+			disableDodge();
+			disableAtks();
+			spAtkKey.enabled = false;
+			btnD.inputEnabled = false;
+
+			var tweenAttack = game.add.tween(player1);
+			tweenAttack.to({ x: player1.x - (playerDist * 1.75), y: player1.y - playerDist }, playerSpeed, Phaser.Easing.Linear.None, true, 0);
+			player1.animations.play('spAtk');
+
+			player1.events.onAnimationComplete.add(function(){
+				returnPos(player1);
+			},this);
+		}
+
 	},
 
 	update: function(){
 	}
-}
-
-function classChange() {
-	classImage.frame = (classImage.frame + 1) % 4;
-	p1Class = (p1Class + 1) % 4;
-	switch(p1Class) {
-		case 2:
-			player1.destroy();
-			player1 = game.add.sprite(p1Location['x'], p1Location['y'], 'gen', 9);
-			player1.scale.setTo(spriteScale, spriteScale);
-			break;
-		case 0:
-			player1.destroy();
-			player1 = game.add.sprite(p1Location['x'], p1Location['y'], 'stuntman', 9);
-			player1.scale.setTo(spriteScale, spriteScale);
-			break;
-		default:
-			break;
-	}
-}
-
-function pause() {
-	if( game.paused !== true) {
-		game.paused = true;
-	} else {
-		game.paused = false;
-	}
-}
-
-function returnPos() {
-	var tween = game.add.tween(arguments[0]);
-	tween.to({ x: p1Location['x'], y: p1Location['y'] }, playerSpeed, Phaser.Easing.Linear.None, true, 150);
-	player1.frame = 9;
-	atkKey.onDown.removeAll();
-	btnF.onInputDown.removeAll();
-	atkKey.onDown.add(attack1, this);
-	btnF.onInputDown.add(attack1, this);
-	enableFighter();
-}
-
-function enableFighter() {
-	enableDodge();
-	enableAtks();
-}
-
-function enableDodge() {
-	backArrow.enabled = true;
-	btnRight.inputEnabled = true;
-	upArrow.enabled = true;
-	btnUp.inputEnabled = true;
-	downArrow.enabled = true;
-	btnDown.inputEnabled = true;
-}
-
-function disableDodge() {
-	backArrow.enabled = false;
-	btnRight.inputEnabled = false;
-	upArrow.enabled = false;
-	btnUp.inputEnabled = false;
-	downArrow.enabled = false;
-	btnDown.inputEnabled = false;
-}
-
-function enableAtks() {
-	atkKey.enabled = true;
-	btnF.inputEnabled = true;
-	spAtkKey.enabled = true;
-	btnD.inputEnabled = true;
-}
-
-function disableAtks() {
-	atkKey.enabled = false;
-	btnF.inputEnabled = false;
-	spAtkKey.enabled = false;
-	btnD.inputEnabled = false;
-}
-
-function dodge(dir) {
-	disableDodge();
-	disableAtks();
-
-	var tweenDodge = game.add.tween(player1);
-	switch (this.dir) {
-		case 'up':
-			var dodgeHash = { y: player1.y - playerDist};
-			break;
-		case 'down':
-			var dodgeHash = { y: player1.y + playerDist};
-			break;
-		case 'back':
-			var dodgeHash = { x: player1.x + playerDist};
-			break;
-	}
-	player1.animations.play('dodge');
-	tweenDodge.to(dodgeHash, playerSpeed, Phaser.Easing.Linear.None, true, 0);
-
-	player1.events.onAnimationComplete.add(function(){
-		returnPos(player1);
-	},this);
-}
-
-function attack1() {
-	disableDodge();
-
-	var tweenAttack = game.add.tween(player1);
-	tweenAttack.to({ x: player1.x - playerDist }, playerSpeed, Phaser.Easing.Linear.None, true, 0);
-	player1.animations.play('attack1');
-	atkKey.onDown.addOnce(attack2, this);
-	btnF.onInputDown.addOnce(attack2, this);
-
-	player1.events.onAnimationComplete.add(function(){
-		returnPos(player1);
-	},this);
-}
-
-function attack2() {
-	player1.animations.play('attack2');
-	atkKey.onDown.addOnce(attack3, this);
-	btnF.onInputDown.addOnce(attack3, this);
-}
-
-function attack3() {
-	disableAtks();
-	player1.animations.play('attack3');
-}
-
-function spAtk() {
-	disableDodge();
-	disableAtks();
-	spAtkKey.enabled = false;
-	btnD.inputEnabled = false;
-
-	var tweenAttack = game.add.tween(player1);
-	tweenAttack.to({ x: player1.x - (playerDist * 1.75), y: player1.y - playerDist }, playerSpeed, Phaser.Easing.Linear.None, true, 0);
-	player1.animations.play('spAtk');
-
-	player1.events.onAnimationComplete.add(function(){
-		returnPos(player1);
-	},this);
 }
