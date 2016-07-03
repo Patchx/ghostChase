@@ -76,7 +76,7 @@ preload.prototype = {
 		btnRight.onInputDown.add(dodge, {dir: 'back'});
 		btnUp.onInputDown.add(dodge, {dir: 'up'});
 		btnDown.onInputDown.add(dodge, {dir: 'down'});
-		btnLeft.onInputDown.add(classChange);
+		btnLeft.onInputDown.add(classChange, {playerClass: p1Class});
 
 		var spAtkKey = game.input.keyboard.addKey(Phaser.Keyboard.D);
 		spAtkKey.onDown.add(spAtk);
@@ -91,19 +91,17 @@ preload.prototype = {
 
 		// Functions
 
-		function classChange() {
+		function classChange(playerClass) {
+			var playerClass = this.playerClass;
+			// alert(playerClass);
 			classImage.frame = (classImage.frame + 1) % 4;
-			var p1Class = (p1Class + 1) % 4;
-			switch(p1Class) {
+			playerClass = (playerClass + 1) % 4;
+			switch(playerClass) {
 				case 2:
-					player1.destroy();
-					var player1 = game.add.sprite(p1Location['x'], p1Location['y'], 'gen', 9);
-					player1.scale.setTo(spriteScale, spriteScale);
+					player1.loadTexture('gen', 9);
 					break;
 				case 0:
-					player1.destroy();
-					var player1 = game.add.sprite(p1Location['x'], p1Location['y'], 'stuntman', 9);
-					player1.scale.setTo(spriteScale, spriteScale);
+					player1.loadTexture('stuntman', 9);
 					break;
 				default:
 					break;
