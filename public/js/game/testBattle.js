@@ -5,8 +5,8 @@ preload.prototype = {
 	preload: function(){ 
 	  this.game.load.image('background', './images/game-background.png');
 		this.game.load.spritesheet('stuntman', './images/stuntman.png', 37, 52, 15);
-		this.game.load.spritesheet('gen', './images/gen.png', 39, 58, 15);
-		this.game.load.spritesheet('healer', './images/healer.png', 47, 60, 15);
+		this.game.load.spritesheet('gen', './images/gen.png', 36, 57, 15);
+		this.game.load.spritesheet('healer', './images/healer.png', 43, 58, 15);
     this.game.load.spritesheet('arrow-left', './images/arrow-left.png', 128, 128);
     this.game.load.spritesheet('arrow-right', './images/arrow-right.png', 128, 128);
     this.game.load.spritesheet('arrow-up', './images/arrow-up.png', 128, 128);
