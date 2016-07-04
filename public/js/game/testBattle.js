@@ -5,14 +5,15 @@ preload.prototype = {
 	preload: function(){ 
 	  this.game.load.image('background', './images/game-background.png');
 		this.game.load.spritesheet('stuntman', './images/stuntman.png', 37, 52, 15);
-		this.game.load.spritesheet('gen', './images/gen.png', 37, 52, 15);
+		this.game.load.spritesheet('gen', './images/gen.png', 39, 58, 15);
+		this.game.load.spritesheet('healer', './images/healer.png', 47, 60, 15);
     this.game.load.spritesheet('arrow-left', './images/arrow-left.png', 128, 128);
     this.game.load.spritesheet('arrow-right', './images/arrow-right.png', 128, 128);
     this.game.load.spritesheet('arrow-up', './images/arrow-up.png', 128, 128);
     this.game.load.spritesheet('arrow-down', './images/arrow-down.png', 128, 128);
     this.game.load.spritesheet('F-btn', './images/F-button.png', 128, 128);
     this.game.load.spritesheet('D-btn', './images/D-button.png', 128, 128);
-		this.game.load.spritesheet('classImage', './images/classChange.png', 20, 24, 4);
+		this.game.load.spritesheet('classImage', './images/classChange.png', 19, 24, 3);
 	},
 
 	create: function(){
@@ -71,7 +72,7 @@ preload.prototype = {
 		backArrow.onDown.add(dodge, {dir: 'back'});
 		upArrow.onDown.add(dodge, {dir: 'up'});
 		downArrow.onDown.add(dodge, {dir: 'down'});
-		frontArrow.onDown.add(classChange);
+		frontArrow.onDown.add(classChange, {playerClass: p1Class});
 
 		btnRight.onInputDown.add(dodge, {dir: 'back'});
 		btnUp.onInputDown.add(dodge, {dir: 'up'});
@@ -92,13 +93,14 @@ preload.prototype = {
 		// Functions
 
 		function classChange(playerClass) {
-			var playerClass = this.playerClass;
-			// alert(playerClass);
-			classImage.frame = (classImage.frame + 1) % 4;
-			playerClass = (playerClass + 1) % 4;
-			switch(playerClass) {
+			classImage.frame = (classImage.frame + 1) % 3;
+			this.playerClass = (this.playerClass + 1) % 3;
+			switch(this.playerClass) {
 				case 2:
 					player1.loadTexture('gen', 9);
+					break;
+				case 1:
+					player1.loadTexture('healer', 9);
 					break;
 				case 0:
 					player1.loadTexture('stuntman', 9);
