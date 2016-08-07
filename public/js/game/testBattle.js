@@ -34,10 +34,10 @@ preload.prototype = {
 
 	  this.game.add.sprite(0, 0, 'background');
 
-		var player1 = game.add.sprite(p1Location['x'], p1Location['y'], 'stuntman', 9);
+		var player1 = game.add.sprite(p1Location['x'], p1Location['y'], 'gen', 9);
 		player1.scale.setTo(spriteScale, spriteScale);
 
-		var classImage = game.add.sprite(game.world.width * 0.45, game.world.height * 0.84, 'classImage', 3);
+		var classImage = game.add.sprite(game.world.width * 0.45, game.world.height * 0.84, 'classImage', 0);
 		classImage.scale.setTo(spriteScale, spriteScale);
 
 		var btnLeft = game.add.button(game.world.width * 0.74, game.world.height * 0.73, 'arrow-left');
@@ -96,13 +96,13 @@ preload.prototype = {
 			classImage.frame = (classImage.frame + 1) % 3;
 			this.playerClass = (this.playerClass + 1) % 3;
 			switch(this.playerClass) {
-				case 2:
+				case 0:
 					player1.loadTexture('gen', 9);
 					break;
 				case 1:
 					player1.loadTexture('healer', 9);
 					break;
-				case 0:
+				case 2:
 					player1.loadTexture('stuntman', 9);
 					break;
 				default:
