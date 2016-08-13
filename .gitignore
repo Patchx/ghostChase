@@ -6,3 +6,4 @@ Homestead.json
 .env
 
 tests/_output/*
+*.xcf

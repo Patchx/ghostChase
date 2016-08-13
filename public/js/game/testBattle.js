@@ -4,9 +4,9 @@ preload.prototype = {
 
 	preload: function(){ 
 	  this.game.load.image('background', './images/game-background.png');
-		this.game.load.spritesheet('stuntman', './images/stuntman.png', 37, 52, 15);
-		this.game.load.spritesheet('gen', './images/gen.png', 36, 57, 15);
-		this.game.load.spritesheet('healer', './images/healer.png', 43, 58, 15);
+		this.game.load.spritesheet('stuntman', './images/stuntman.png', 42, 57, 36);
+		this.game.load.spritesheet('gen', './images/gen.png', 42, 57, 36);
+		this.game.load.spritesheet('healer', './images/healer.png', 42, 57, 36);
     this.game.load.spritesheet('arrow-left', './images/arrow-left.png', 128, 128);
     this.game.load.spritesheet('arrow-right', './images/arrow-right.png', 128, 128);
     this.game.load.spritesheet('arrow-up', './images/arrow-up.png', 128, 128);
@@ -18,23 +18,29 @@ preload.prototype = {
 
 	create: function(){
 
-		// Visual Settings
+		// ---------------------
+		// -- Visual Settings --
+		// ---------------------
 
 		var spriteScale = game.world.width * 0.004;
 		var arrowScale = game.world.width * 0.00064;
 
-		// Battle Settings
+		// ---------------------
+		// -- Battle Settings --
+		// ---------------------
 
 		var playerSpeed = 6;
 		var playerDist = 30;
 		var p1Location = {x: game.world.width * 0.65, y: game.world.height * 0.35};
 		var p1Class = 0;
 
-		// Sprites
+		// -------------
+		// -- Sprites --
+		// -------------
 
 	  this.game.add.sprite(0, 0, 'background');
 
-		var player1 = game.add.sprite(p1Location['x'], p1Location['y'], 'gen', 9);
+		var player1 = game.add.sprite(p1Location['x'], p1Location['y'], 'gen', 12);
 		player1.scale.setTo(spriteScale, spriteScale);
 
 		var classImage = game.add.sprite(game.world.width * 0.45, game.world.height * 0.84, 'classImage', 0);
@@ -54,15 +60,19 @@ preload.prototype = {
 		btnF.scale.setTo(spriteScale * 0.19, spriteScale * 0.19);
 		btnD.scale.setTo(spriteScale * 0.19, spriteScale * 0.19);
 
-		// Animations
+		// ----------------
+		// -- Animations --
+		// ----------------
 
-		player1.animations.add('dodge', [9,10], playerSpeed, false);
-		player1.animations.add('attack1', [9,12], playerSpeed, false);
-		player1.animations.add('attack2', [13], playerSpeed * 0.5, false);
-		player1.animations.add('attack3', [14,13], playerSpeed * 0.7, false);
-		player1.animations.add('spAtk', [11], playerSpeed * 1.2, false);
+		player1.animations.add('dodge', [12,13], playerSpeed, false);
+		player1.animations.add('attack1', [18,19], playerSpeed, false);
+		player1.animations.add('attack2', [19,20], playerSpeed * 0.5, false);
+		player1.animations.add('attack3', [24,25], playerSpeed * 0.7, false);
+		player1.animations.add('spAtk', [29,30], playerSpeed * 1.2, false);
 
-		// Controls
+		// --------------
+		// -- Controls --
+		// --------------
 
 		var backArrow = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
 		var upArrow = game.input.keyboard.addKey(Phaser.Keyboard.UP);
@@ -90,20 +100,22 @@ preload.prototype = {
 		var pauseBtn = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 		pauseBtn.onDown.add(pause);
 
-		// Functions
+		// ---------------
+		// -- Functions --
+		// ---------------
 
 		function classChange(playerClass) {
 			classImage.frame = (classImage.frame + 1) % 3;
 			this.playerClass = (this.playerClass + 1) % 3;
 			switch(this.playerClass) {
 				case 0:
-					player1.loadTexture('gen', 9);
+					player1.loadTexture('gen', 12);
 					break;
 				case 1:
-					player1.loadTexture('healer', 9);
+					player1.loadTexture('healer', 12);
 					break;
 				case 2:
-					player1.loadTexture('stuntman', 9);
+					player1.loadTexture('stuntman', 12);
 					break;
 				default:
 					break;
@@ -121,7 +133,7 @@ preload.prototype = {
 		function returnPos() {
 			var tween = game.add.tween(arguments[0]);
 			tween.to({ x: p1Location['x'], y: p1Location['y'] }, playerSpeed, Phaser.Easing.Linear.None, true, 150);
-			player1.frame = 9;
+			player1.frame = 13;
 			atkKey.onDown.removeAll();
 			btnF.onInputDown.removeAll();
 			atkKey.onDown.add(attack1, this);
